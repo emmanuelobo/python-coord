@@ -11,9 +11,10 @@ class BikeTests(unittest.TestCase):
 	def tearDown(self):
 		pass
 
-	def test_base_url_endpoint(self):
+	def test_bike_location(self):
 		bike_api = Bike(config('API_KEY'))
-		print(bike_api.BASE_URL)
+		response = bike_api.location_search(latitude=40.74286877312112, longitude=-73.98918628692627, radius_km=0.5)
+		print(response)
 
 
 if __name__ == '__main__':
