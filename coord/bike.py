@@ -13,10 +13,10 @@ class Bike(BaseAPI):
 		Get a list of locations given the input parameters.
 		Specify a search area by radius around a latitude and longitude, as well as any filter for specific systems.
 		Each location will be a GeoJSON Feature, and aggregated into a GeoJSON FeatureCollection.
-		:param latitude:
-		:param longitude:
-		:param radius_km:
-		:param system_ids:
+		:param latitude: float
+		:param longitude: float
+		:param radius_km: float
+		:param system_ids: int
 		:return:
 		"""
 
