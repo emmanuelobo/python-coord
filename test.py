@@ -24,7 +24,7 @@ class BikeTests(unittest.TestCase):
 		subset = {"type": "Feature"}
 		self.assertIsNotNone(response)
 		self.assertIsInstance(response, dict)
-		self.assertDictContainsSubset(subset, response)
+		self.assertIn(subset, response)
 
 
 
