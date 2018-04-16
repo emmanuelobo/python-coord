@@ -84,13 +84,14 @@ class Bike(BaseAPI):
 
 	def pass_instances(self, active=None):
 		if active is None:
-			path = f'{self.BIKE_PATH}user/{self._jwt_token}/pass-instance?{self.secret_key}'
-			response = requests.get(path).json()
-		else:
-			path = f'{self.BIKE_PATH}user/{self._jwt_token}/pass-instance?active={active}&{self.secret_key}'
-			response = requests.get(path).json()
-
-		self.check_api_key(response)
+			path = f'{self.BIKE_PATH}user/current/pass_instance?{self.secret_key}'
+			response = requests.get(path, headers=self.AUTH_HEADER)
+		elif active:
+			path = f'{self.BIKE_PATH}user/current/pass_instance?active=true&{self.secret_key}'
+			response = requests.get(path,  headers=self.AUTH_HEADER)
+		elif not active:
+			path = f'{self.BIKE_PATH}user/current/pass_instance?active=false&{self.secret_key}'
+			response = requests.get(path, headers=self.AUTH_HEADER)
 
 		return response
 
