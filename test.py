@@ -29,7 +29,8 @@ class BikeTests(unittest.TestCase):
 			pass
 
 	def test_bike_location_search(self):
-		response = self.bike_api.location_search(latitude=40.74286877312112, longitude=-73.98918628692627, radius_km=0.5)
+		response = self.bike_api.location_search(latitude=40.74286877312112, longitude=-73.98918628692627,
+												 radius_km=0.5)
 		sub = {'id': 'CitiBike-3641'}
 		self.assertIsInstance(response, dict)
 
@@ -38,11 +39,12 @@ class BikeTests(unittest.TestCase):
 		bike location information test
 		:return:
 		"""
-		response = self.bike_api.location_info(location_id=482,system_id=1)
+		response = self.bike_api.location_info(location_id=482, system_id=1)
 		subset = {"type": "Feature"}
 		self.assertIsNotNone(response)
 		self.assertIsInstance(response, dict)
-		# self.assertIn(subset, response)
+
+	# self.assertIn(subset, response)
 
 	def test_pass_instance(self):
 		response = self.bike_api.pass_instances()
@@ -52,6 +54,13 @@ class BikeTests(unittest.TestCase):
 		self.assertIsInstance(response.json(), list)
 		print(response.content)
 		print(response.json())
+
+	def test_inactive_pass_instances(self):
+		response = self.bike_api.pass_instances(active=False)
+		self.assertIsInstance(response.json(), list)
+		print(response.content)
+		print(response.json())
+
 
 if __name__ == '__main__':
 	unittest.main()

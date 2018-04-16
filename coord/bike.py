@@ -83,6 +83,16 @@ class Bike(BaseAPI):
 		return response
 
 	def pass_instances(self, active=None):
+		"""
+		This method requires an authenticated user.
+		See authentication section at https://coord.co/docs/bike for details of how to authenticate.
+		Return all of a user's pass instances by default.
+		Use the active parameter to filter by active/inactive passes.
+		This endpoint can be used before renting a bike to see if the user already has any active pass and can be used to show a log of current and prior pass purchases.
+
+		:param active: boolean
+		:return: list
+		"""
 		if active is None:
 			path = f'{self.BIKE_PATH}user/current/pass_instance?{self.secret_key}'
 			response = requests.get(path, headers=self.AUTH_HEADER)
@@ -95,16 +105,30 @@ class Bike(BaseAPI):
 
 		return response
 
-	def get_or_create_session(self):
-		path = f'{self.BIKE_PATH}'
+	def get_or_create_sessions(self):
+		"""
+		This method requires an authenticated user.
+		See authentication section at https://coord.co/docs/bike for details of how to authenticate.
+		See above for details of how to authenticate. Return all of a user's sessions by default.
+		Use the active parameter to filter by active/inactive sessions.
+
+		:return: list
+		"""
+		path = f'{self.BIKE_PATH}user/current/session?{self.secret_key}'
 		response = requests.get(path).json()
 		self.check_api_key(response)
 
 		return response
 
-	def single_session(self):
-		path = f'{self.BIKE_PATH}'
-		response = requests.get(path).json()
+	def single_session(self, session_id):
+		"""
+		Returns the requested bike session.
+
+		:return: list
+		"""
+
+		path = f'{self.BIKE_PATH}session/{session_id}?{self.secret_key}'
+		response = requests.get(path).json()[0]
 		self.check_api_key(response)
 
 		return response
