@@ -1,7 +1,5 @@
-from coord.util import Utility
-from coord.exceptions import InvalidAPIKeyException
-from coord.client import BaseAPI
 import requests
+from coord.client import BaseAPI
 
 
 class Bike(BaseAPI):
@@ -29,7 +27,7 @@ class Bike(BaseAPI):
 
 		path = f'{self.BIKE_PATH}location?latitude={latitude}&longitude={longitude}&radius_km={radius_km}&{self.secret_key}'
 		response = requests.get(path).json()
-		Utility.check_api_key(response)
+		self.check_api_key(response)
 
 		return response
 
@@ -44,7 +42,7 @@ class Bike(BaseAPI):
 		"""
 		path = f'{self.BIKE_PATH}location/{system_id}&{location_id}?{self.secret_key}'
 		response = requests.get(path).json()
-		Utility.check_api_key(response)
+		self.check_api_key(response)
 
 		return response
 
@@ -61,7 +59,7 @@ class Bike(BaseAPI):
 
 		path = f'{self.BIKE_PATH}quote?{self.secret_key}'
 		response = requests.get(path).json()
-		Utility.check_api_key(response)
+		self.check_api_key(response)
 
 		return response
 
@@ -80,27 +78,32 @@ class Bike(BaseAPI):
 
 		path = f'{self.BIKE_PATH}system/{system_id}/{self.secret_key}'
 		response = requests.get(path).json()
-		Utility.check_api_key(response)
+		self.check_api_key(response)
 
 		return response
 
-	def pass_instances(self):
-		path = f'{self.BIKE_PATH}'
-		response = requests.get(path).json()
-		Utility.check_api_key(response)
+	def pass_instances(self, active=None):
+		if active is None:
+			path = f'{self.BIKE_PATH}user/{self._jwt_token}/pass-instance?{self.secret_key}'
+			response = requests.get(path).json()
+		else:
+			path = f'{self.BIKE_PATH}user/{self._jwt_token}/pass-instance?active={active}&{self.secret_key}'
+			response = requests.get(path).json()
+
+		self.check_api_key(response)
 
 		return response
 
 	def get_or_create_session(self):
 		path = f'{self.BIKE_PATH}'
 		response = requests.get(path).json()
-		Utility.check_api_key(response)
+		self.check_api_key(response)
 
 		return response
 
 	def single_session(self):
 		path = f'{self.BIKE_PATH}'
 		response = requests.get(path).json()
-		Utility.check_api_key(response)
+		self.check_api_key(response)
 
 		return response

@@ -7,10 +7,20 @@ class BikeTests(unittest.TestCase):
 	def setUp(self):
 		self.bike_api = Bike(config('API_KEY'))
 
+	def test_jwt_token(self):
+		bike = Bike(config('API_KEY'), 'manny@gmail.com')
+		self.assertIsNotNone(bike)
+		self.assertIsNotNone(bike._jwt_token)
+		self.assertGreater(len(bike._jwt_token), 0)
+
 	def test_missing_apikey_exception(self):
 		bike = Bike('test')
 		info = bike.location_info
-		self.assertRaises(InvalidAPIKeyException, info(482, 1))
+		try:
+			self.assertRaises(InvalidAPIKeyException, info(482, 1))
+
+		except InvalidAPIKeyException:
+			pass
 
 	def test_bike_location_search(self):
 		response = self.bike_api.location_search(latitude=40.74286877312112, longitude=-73.98918628692627, radius_km=0.5)
