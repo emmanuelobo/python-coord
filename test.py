@@ -1,6 +1,7 @@
 import unittest
 from decouple import config
 from coord import Bike, InvalidAPIKeyException
+from coord.exceptions import InvalidEmailFormatException
 
 
 class BikeTests(unittest.TestCase):
@@ -13,12 +14,17 @@ class BikeTests(unittest.TestCase):
 		self.assertIsNotNone(bike._jwt_token)
 		self.assertGreater(len(bike._jwt_token), 0)
 
+	def test_invalid_email_format_exception(self):
+		try:
+			Bike(config('API_KEY'), 'test')
+		except InvalidEmailFormatException:
+			pass
+
 	def test_missing_apikey_exception(self):
 		bike = Bike('test')
 		info = bike.location_info
 		try:
 			self.assertRaises(InvalidAPIKeyException, info(482, 1))
-
 		except InvalidAPIKeyException:
 			pass
 

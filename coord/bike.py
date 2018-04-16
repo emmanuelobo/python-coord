@@ -10,7 +10,7 @@ class Bike(BaseAPI):
 
 	def __init__(self, *args):
 		super(Bike, self).__init__(*args)
-		self.BIKE_PATH = f'{self.BASE_URL}{self.endpoint["bike"]}'
+		self.BIKE_PATH = f'{self.BASE_URL}{self.BIKE_ENDPOINT}'
 	
 	def location_search(self, latitude, longitude, radius_km, system_ids=None):
 		"""
