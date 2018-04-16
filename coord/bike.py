@@ -1,3 +1,5 @@
+from coord.util import Utility
+from coord.exceptions import InvalidAPIKeyException
 from coord.client import BaseAPI
 import requests
 
@@ -26,8 +28,10 @@ class Bike(BaseAPI):
 		"""
 
 		path = f'{self.BIKE_PATH}location?latitude={latitude}&longitude={longitude}&radius_km={radius_km}&{self.secret_key}'
-		response = requests.get(path)
-		return response.json()
+		response = requests.get(path).json()
+		Utility.check_api_key(response)
+
+		return response
 
 	def location_info(self, location_id, system_id):
 		"""
@@ -39,8 +43,10 @@ class Bike(BaseAPI):
 		:return: dict
 		"""
 		path = f'{self.BIKE_PATH}location/{system_id}&{location_id}?{self.secret_key}'
-		response = requests.get(path)
-		return response.json()
+		response = requests.get(path).json()
+		Utility.check_api_key(response)
+
+		return response
 
 	def rental_quote_info(self, system_ids=None):
 		"""
@@ -54,17 +60,47 @@ class Bike(BaseAPI):
 		"""
 
 		path = f'{self.BIKE_PATH}quote?{self.secret_key}'
-		response = requests.get(path)
-		return response.json()
+		response = requests.get(path).json()
+		Utility.check_api_key(response)
 
-	def system_info(self):
-		pass
+		return response
+
+	def system_info(self, system_id):
+		"""
+		Bike systems are individual bike share systems, often per-region.Information is returned as a GeoJSON Feature.
+		The geometry of the GeoJSON Feature is a MultiPolygon that defines the system's operational area.
+		All bike systems have an operational area, in which bikes may be found and parked.
+		For systems that require bikes be docked, this area is somewhat arbitrary, as bikes are only found at stations.
+		In this case, the operational area is roughly the city or jurisdiction that the system covers.
+		For semi-dockless and dockless systems that allow bikes to be parked anywhere, the operational area is very important and strictly defined. Often there are extra fees for parking outside of the operational area (also known as a "catchment area"), and almost all bikes should be within the area.Areas are returned as a GeoJSON MultiPolygon since areas may be discontiguous or have holes.
+
+		:param system_id: int
+		:return: dict
+		"""
+
+		path = f'{self.BIKE_PATH}system/{system_id}/{self.secret_key}'
+		response = requests.get(path).json()
+		Utility.check_api_key(response)
+
+		return response
 
 	def pass_instances(self):
-		pass
+		path = f'{self.BIKE_PATH}'
+		response = requests.get(path).json()
+		Utility.check_api_key(response)
+
+		return response
 
 	def get_or_create_session(self):
-		pass
+		path = f'{self.BIKE_PATH}'
+		response = requests.get(path).json()
+		Utility.check_api_key(response)
+
+		return response
 
 	def single_session(self):
-		pass
+		path = f'{self.BIKE_PATH}'
+		response = requests.get(path).json()
+		Utility.check_api_key(response)
+
+		return response
