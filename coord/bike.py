@@ -124,7 +124,8 @@ class Bike(BaseAPI):
 		"""
 		Returns the requested bike session.
 
-		:return: list
+		:param: session_id
+		:return: dict
 		"""
 
 		path = f'{self.BIKE_PATH}session/{session_id}?{self.secret_key}'
