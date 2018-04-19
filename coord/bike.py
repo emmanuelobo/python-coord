@@ -10,8 +10,8 @@ class Bike(BaseAPI):
 
 	def __init__(self, *args):
 		super(Bike, self).__init__(*args)
-		self.BIKE_PATH = f'{self.BASE_URL}{self.BIKE_ENDPOINT}'
-	
+
+
 	def location_search(self, latitude, longitude, radius_km, system_ids=None):
 		"""
 		Get a list of locations given the input parameters.
@@ -25,7 +25,7 @@ class Bike(BaseAPI):
 		:return: dict
 		"""
 
-		path = f'{self.BIKE_PATH}location?latitude={latitude}&longitude={longitude}&radius_km={radius_km}&{self.secret_key}'
+		path = f'{self.BIKE_ENDPOINT}location?latitude={latitude}&longitude={longitude}&radius_km={radius_km}&{self.secret_key}'
 		response = requests.get(path).json()
 		self.check_api_key(response)
 
@@ -40,7 +40,7 @@ class Bike(BaseAPI):
 		:param system_id: int
 		:return: dict
 		"""
-		path = f'{self.BIKE_PATH}location/{system_id}&{location_id}?{self.secret_key}'
+		path = f'{self.BIKE_ENDPOINT}location/{system_id}&{location_id}?{self.secret_key}'
 		response = requests.get(path).json()
 		self.check_api_key(response)
 
@@ -57,7 +57,7 @@ class Bike(BaseAPI):
 		:return: dict
 		"""
 
-		path = f'{self.BIKE_PATH}quote?{self.secret_key}'
+		path = f'{self.BIKE_ENDPOINT}quote?{self.secret_key}'
 		response = requests.get(path).json()
 		self.check_api_key(response)
 
@@ -76,7 +76,7 @@ class Bike(BaseAPI):
 		:return: dict
 		"""
 
-		path = f'{self.BIKE_PATH}system/{system_id}/{self.secret_key}'
+		path = f'{self.BIKE_ENDPOINT}system/{system_id}/{self.secret_key}'
 		response = requests.get(path).json()
 		self.check_api_key(response)
 
@@ -94,14 +94,14 @@ class Bike(BaseAPI):
 		:return: list
 		"""
 		if active is None:
-			path = f'{self.BIKE_PATH}user/current/pass_instance?{self.secret_key}'
-			response = requests.get(path, headers=self.AUTH_HEADER)
+			path = f'{self.BIKE_ENDPOINT}user/current/pass_instance?{self.secret_key}'
+			response = requests.get(path, headers=self.AUTH_HEADER).json()
 		elif active:
-			path = f'{self.BIKE_PATH}user/current/pass_instance?active=true&{self.secret_key}'
-			response = requests.get(path,  headers=self.AUTH_HEADER)
+			path = f'{self.BIKE_ENDPOINT}user/current/pass_instance?active=true&{self.secret_key}'
+			response = requests.get(path,  headers=self.AUTH_HEADER).json()
 		elif not active:
-			path = f'{self.BIKE_PATH}user/current/pass_instance?active=false&{self.secret_key}'
-			response = requests.get(path, headers=self.AUTH_HEADER)
+			path = f'{self.BIKE_ENDPOINT}user/current/pass_instance?active=false&{self.secret_key}'
+			response = requests.get(path, headers=self.AUTH_HEADER).json()
 
 		return response
 
@@ -114,7 +114,7 @@ class Bike(BaseAPI):
 
 		:return: list
 		"""
-		path = f'{self.BIKE_PATH}user/current/session?{self.secret_key}'
+		path = f'{self.BIKE_ENDPOINT}user/current/session?{self.secret_key}'
 		response = requests.get(path).json()
 		self.check_api_key(response)
 
@@ -128,7 +128,7 @@ class Bike(BaseAPI):
 		:return: dict
 		"""
 
-		path = f'{self.BIKE_PATH}session/{session_id}?{self.secret_key}'
+		path = f'{self.BIKE_ENDPOINT}session/{session_id}?{self.secret_key}'
 		response = requests.get(path).json()[0]
 		self.check_api_key(response)
 

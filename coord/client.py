@@ -6,15 +6,15 @@ class BaseAPI:
 
 	BASE_URL = 'https://api.coord.co/v1'
 	INVALID_KEY_MSG = "Forbidden: Coord API calls must include an access_key or an Authorization header"
-	BIKE_ENDPOINT = '/bike/'
-	USER_ENDPOINT = '/users/'
-	CURB_ENDPOINT = '/curb/'
+	BIKE_ENDPOINT = f'{BASE_URL}/bike/'
+	USER_ENDPOINT = f'{BASE_URL}/users/'
+	CURB_ENDPOINT = f'{BASE_URL}/search/curbs/'
 
 	def __init__(self, secret_key, user=None):
 		self.secret_key = 'access_key=' + secret_key
 
 		if user is not None:
-			path = f'{self.BASE_URL}{self.USER_ENDPOINT}testing/user_and_jwt?{self.secret_key}'
+			path = f'{self.USER_ENDPOINT}testing/user_and_jwt?{self.secret_key}'
 			headers = {'Content-Type': 'application/json'}
 			body = {"user": {"email": user}}
 			response = requests.post(path, headers=headers, json=body).json()
@@ -40,7 +40,7 @@ class BaseAPI:
 		Creates a new user session with a new jwt token. If there is already an existing email and jwt token then they are overridden.
 		:param email: str
 		"""
-		path = f'{self.BASE_URL}{self.USER_ENDPOINT}testing/user_and_jwt?{self.secret_key}'
+		path = f'{self.USER_ENDPOINT}testing/user_and_jwt?{self.secret_key}'
 		headers = {'Content-Type': 'application/json'}
 		body = {"user": {"email": email}}
 		response = requests.post(path, headers=headers, json=body).json()
@@ -53,7 +53,7 @@ class BaseAPI:
 
 
 	def link_account(self):
-		path = f'{self.BASE_URL}{self.USER_ENDPOINT}testing/user/current/provisioned_systems?{self.secret_key}'
+		path = f'{self.USER_ENDPOINT}testing/user/current/provisioned_systems?{self.secret_key}'
 		body = {"system_id": ["CitiBike"]}
 		response = requests.put(path, headers=self.AUTH_HEADER, json=body).json()
 		return response

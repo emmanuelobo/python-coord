@@ -18,7 +18,7 @@ class BikeTests(unittest.TestCase):
 
 	def test_invalid_email_format_exception(self):
 		try:
-			Bike(config('API_KEY'), 'test')
+			self.assertRaises(Bike(config('API_KEY'), 'test'))
 		except InvalidEmailFormatException:
 			pass
 
@@ -54,18 +54,17 @@ class BikeTests(unittest.TestCase):
 	@vcr.use_cassette('fixtures/vcr_cassettes/test_pass_instance.yaml')
 	def test_pass_instance(self):
 		response = self.bike_api.pass_instances()
+		self.assertIsInstance(response, list)
 
 	@vcr.use_cassette('fixtures/vcr_cassettes/test_active_pass_instances.yaml')
 	def test_active_pass_instances(self):
 		response = self.bike_api.pass_instances(active=True)
-		self.assertIsInstance(response.json(), list)
+		self.assertIsInstance(response, list)
 
 	@vcr.use_cassette('fixtures/vcr_cassettes/test_inactive_pass_instances.yaml')
 	def test_inactive_pass_instances(self):
 		response = self.bike_api.pass_instances(active=False)
-		self.assertIsInstance(response.json(), list)
-		print(response.content)
-		print(response.json())
+		self.assertIsInstance(response, list)
 
 
 if __name__ == '__main__':
