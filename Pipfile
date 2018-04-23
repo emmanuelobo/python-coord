@@ -10,6 +10,8 @@ name = "pypi"
 requests = "*"
 python-decouple = "*"
 vcrpy = "*"
+twisted = "*"
+"pypiwin32" = "*"
 
 
 [dev-packages]
