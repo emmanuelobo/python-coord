@@ -81,7 +81,7 @@ class Curb(BaseAPI):
 			+ (f'&permitted_use={permitted_use}' if permitted_use is not None else self.BLANK)
 			+ (f'&vehicle_type={vehicle_type}' if vehicle_type is not None else self.BLANK)
 			+ (f'&duration_h={duration_h}' if duration_h is not None else self.BLANK)
-			+ f'&access_key={self.secret_key}'
+			+ f'&{self.secret_key}'
 		)
 
 		response = requests.get(path).json()
@@ -104,7 +104,7 @@ class Curb(BaseAPI):
 			f'id={id}'
 			+ (f'&temp_rules_window_start={temp_rules_window_start}' if temp_rules_window_start is not None else self.BLANK)
 			+ (f'&temp_rules_window_end={temp_rules_window_end}' if temp_rules_window_end is not None else self.BLANK)
-			+ f'&access_key={self.secret_key}'
+			+ f'&{self.secret_key}'
 		)
 
 		response = requests.get(path).json()
@@ -120,6 +120,17 @@ class Curb(BaseAPI):
 		:param time:
 		:return:
 		"""
+
+		path = (
+			f'{self.CURB_ENDPOINT}bybounds/all_rules?'
+			f'id={id}'
+			+ (f'&time={time}' if time is not None else self.BLANK)
+			+ f'&{self.secret_key}'
+		)
+
+		response = requests.get(path).json()
+
+		return response
 
 
 	def curb_rules_near_location(self, latitude=None, longitude=None, radius_km=None, temp_rules_window_start=None, temp_rules_window_end=None,
@@ -139,8 +150,25 @@ class Curb(BaseAPI):
 		:return:
 		"""
 
+		path = (
+			f'{self.CURB_ENDPOINT}bybounds/all_rules?'
+			+ (f'latitude={latitude}' if latitude is not None else self.BLANK)
+			+ (f'&longitude={longitude}' if longitude is not None else self.BLANK)
+			+ (f'&radius_km={radius_km}' if radius_km is not None else self.BLANK)
+			+ (f'&temp_rules_window_start={temp_rules_window_start}' if temp_rules_window_start is not None else self.BLANK)
+			+ (f'&temp_rules_window_end={temp_rules_window_end}' if temp_rules_window_end is not None else self.BLANK)
+			+ (f'&primary_use={primary_use}' if primary_use is not None else self.BLANK)
+			+ (f'&permitted_use={permitted_use}' if permitted_use is not None else self.BLANK)
+			+ (f'&vehicle_type={vehicle_type}' if vehicle_type is not None else self.BLANK)
+			+ f'&{self.secret_key}'
+		)
 
-	def curb_rules_at_certain_time_near_location(self, latitude=None, longitude=None, radius_km=None, time=None, primary_use=None,
+		response = requests.get(path).json()
+
+		return response
+
+
+	def curb_rules_at_certain_time_near_location(self, latitude=None, longitude=None, radius_km=None, time=None, primary_use=None, permitted_use=None,
 												 vehicle_type=None, duration_h=None):
 		"""
 		Find the rules for a given curb at a given time and on a given day.
@@ -155,3 +183,19 @@ class Curb(BaseAPI):
 		:param duration_h:
 		:return:
 		"""
+
+		path = (
+			f'{self.CURB_ENDPOINT}bybounds/all_rules?'
+			+ (f'latitude={latitude}' if latitude is not None else self.BLANK)
+			+ (f'&longitude={longitude}' if longitude is not None else self.BLANK)
+			+ (f'&radius_km={radius_km}' if radius_km is not None else self.BLANK)
+			+ (f'&primary_use={primary_use}' if primary_use is not None else self.BLANK)
+			+ (f'&permitted_use={permitted_use}' if permitted_use is not None else self.BLANK)
+			+ (f'&vehicle_type={vehicle_type}' if vehicle_type is not None else self.BLANK)
+			+ (f'&duration_h={duration_h}' if duration_h is not None else self.BLANK)
+			+ f'&{self.secret_key}'
+		)
+
+		response = requests.get(path).json()
+
+		return response

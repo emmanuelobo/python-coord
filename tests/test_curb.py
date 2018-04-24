@@ -20,6 +20,7 @@ class CurbsTest(TestCase):
 		testResponse = self.curbs_api.curbs_rules_bounding_box(44.444, 44.444, 44.444, 44.444)
 		self.assertIsInstance(testResponse, dict)
 		self.assertDictEqual(actualResponse, testResponse)
+		
 
 
 if __name__ == "__main__":
