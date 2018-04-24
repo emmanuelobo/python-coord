@@ -1,5 +1,4 @@
 import requests
-
 from coord.client import BaseAPI
 
 
@@ -41,12 +40,14 @@ class Curb(BaseAPI):
 			f'&max_latitude={max_latitude}'
 			f'&min_longitude={min_longitude}'
 			f'&max_longitude={max_longitude}'
-			+ (f'&temp_rules_window_start={temp_rules_window_start}' if temp_rules_window_start is not None else '')
-			+ (f'&temp_rules_window_end={temp_rules_window_end}' if temp_rules_window_end is not None else '')
-			+ (f'&primary_use={primary_use}' if primary_use is not None else '')
-			+ (f'&permitted_use={permitted_use}' if permitted_use is not None else '')
-			+ (f'&vehicle_type={vehicle_type}' if vehicle_type is not None else '')
+			+ (f'&temp_rules_window_start={temp_rules_window_start}' if temp_rules_window_start is not None else self.BLANK)
+			+ (f'&temp_rules_window_end={temp_rules_window_end}' if temp_rules_window_end is not None else self.BLANK)
+			+ (f'&primary_use={primary_use}' if primary_use is not None else self.BLANK)
+			+ (f'&permitted_use={permitted_use}' if permitted_use is not None else self.BLANK)
+			+ (f'&vehicle_type={vehicle_type}' if vehicle_type is not None else self.BLANK)
+			+ f'&{self.secret_key}'
 		)
+		print(path)
 		response = requests.get(path).json()
 
 		return response
@@ -57,17 +58,35 @@ class Curb(BaseAPI):
 		"""
 		Find the rules for all curbs within a bounding box at a particular time.
 
-		:param min_latitude:
-		:param max_latitude:
-		:param min_longitude:
-		:param max_longitude:
-		:param time:
+		:param min_latitude: float
+		:param max_latitude: float
+		:param min_longitude: float
+		:param max_longitude: float
+		:param time: float
 		:param primary_use:
 		:param permitted_use:
 		:param vehicle_type:
 		:param duration_h:
 		:return:
 		"""
+
+		path = (
+			f'{self.CURB_ENDPOINT}bybounds/all_rules?'
+			f'min_latitude={min_latitude}'
+			f'&max_latitude={max_latitude}'
+			f'&min_longitude={min_longitude}'
+			f'&max_longitude={max_longitude}'
+			+ (f'&time={time}' if time is not None else self.BLANK)
+			+ (f'&primary_use={primary_use}' if primary_use is not None else self.BLANK)
+			+ (f'&permitted_use={permitted_use}' if permitted_use is not None else self.BLANK)
+			+ (f'&vehicle_type={vehicle_type}' if vehicle_type is not None else self.BLANK)
+			+ (f'&duration_h={duration_h}' if duration_h is not None else self.BLANK)
+			+ f'&access_key={self.secret_key}'
+		)
+
+		response = requests.get(path).json()
+
+		return response
 
 
 	def single_curb_rules(self, id, temp_rules_window_start=None, temp_rules_window_end=None):
@@ -79,6 +98,18 @@ class Curb(BaseAPI):
 		:param temp_rules_window_end:
 		:return:
 		"""
+
+		path = (
+			f'{self.CURB_ENDPOINT}bybounds/all_rules?'
+			f'id={id}'
+			+ (f'&temp_rules_window_start={temp_rules_window_start}' if temp_rules_window_start is not None else self.BLANK)
+			+ (f'&temp_rules_window_end={temp_rules_window_end}' if temp_rules_window_end is not None else self.BLANK)
+			+ f'&access_key={self.secret_key}'
+		)
+
+		response = requests.get(path).json()
+
+		return response
 
 
 	def single_curb_rules_certain_time(self, id, time=None):
