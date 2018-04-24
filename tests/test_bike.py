@@ -9,6 +9,11 @@ from coord.exceptions import InvalidEmailFormatException
 class BikeTests(unittest.TestCase):
 	def setUp(self):
 		self.bike_api = Bike(config('API_KEY'), 'manny@gmail.com')
+		self.longitude_mock = -73.98918628692627
+		self.latitude_mock = 40.74286877312112
+		self.radius_km_mock = 0.5
+		self.location_id_mock = 482
+		self.system_id_mock = 1
 
 	def test_jwt_token(self):
 		bike = Bike(config('API_KEY'), 'manny@gmail.com')
@@ -27,14 +32,14 @@ class BikeTests(unittest.TestCase):
 		bike = Bike('test')
 		info = bike.location_info
 		try:
-			self.assertRaises(InvalidAPIKeyException, info(482, 1))
+			self.assertRaises(InvalidAPIKeyException, info(self.location_id_mock, self.system_id_mock))
 		except InvalidAPIKeyException:
 			pass
 
 	@vcr.use_cassette('fixtures/vcr_cassettes/test_bike_location_search.yaml')
 	def test_bike_location_search(self):
-		response = self.bike_api.location_search(latitude=40.74286877312112, longitude=-73.98918628692627,
-												 radius_km=0.5)
+		response = self.bike_api.location_search(latitude=self.latitude_mock, longitude=self.longitude_mock,
+												 radius_km=self.radius_km_mock)
 		self.assertIsInstance(response, dict)
 		self.assertIn('features', response)
 		self.assertGreater(len(response['features']), 0)
@@ -47,7 +52,7 @@ class BikeTests(unittest.TestCase):
 		bike location information test
 		:return:
 		"""
-		response = self.bike_api.location_info(location_id=482, system_id=1)
+		response = self.bike_api.location_info(location_id=self.location_id_mock, system_id=self.system_id_mock)
 		self.assertIsNotNone(response)
 		self.assertIsInstance(response, dict)
 

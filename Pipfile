@@ -12,6 +12,7 @@ python-decouple = "*"
 vcrpy = "*"
 twisted = "*"
 "pypiwin32" = "*"
+coverage = "*"
 
 
 [dev-packages]
