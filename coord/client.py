@@ -9,6 +9,7 @@ class BaseAPI:
 	BIKE_ENDPOINT = f'{BASE_URL}/bike/'
 	USER_ENDPOINT = f'{BASE_URL}/users/'
 	CURB_ENDPOINT = f'{BASE_URL}/search/curbs/'
+	TOLLWAY_ENDPOINT = f'{BASE_URL}/search/tolling/'
 	BLANK = ''
 
 	def __init__(self, secret_key, user=None):

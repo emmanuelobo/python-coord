@@ -47,7 +47,6 @@ class Curb(BaseAPI):
 			+ (f'&vehicle_type={vehicle_type}' if vehicle_type is not None else self.BLANK)
 			+ f'&{self.secret_key}'
 		)
-		print(path)
 		response = requests.get(path).json()
 
 		return response
