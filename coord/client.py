@@ -59,5 +59,3 @@ class BaseAPI:
 		body = {"system_id": ["CitiBike"]}
 		response = requests.put(path, headers=self.AUTH_HEADER, json=body).json()
 		return response
-
-

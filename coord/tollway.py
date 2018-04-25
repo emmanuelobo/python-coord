@@ -12,14 +12,17 @@ class Tollway(BaseAPI):
 	Note that while we support distance based tolls that are applied using toll gates or booths, we currently do not support mileage-based user fees that are assessed based on odometer readings.
 	"""
 
-	def tolls_on_route(self):
+	def tolls_on_route(self, route):
 		"""
 		Get all toll rates corresponding to a single route
 
+		:param route: dict
 		:return: dict
 		"""
+
+		headers = {'Content-Type': 'application/json'}
 		path = f'{self.TOLLWAY_ENDPOINT}route?{self.secret_key}'
-		response = requests.post(path).json()
+		response = requests.post(path, data=route, headers=headers).json()
 
 		return response
 
