@@ -88,11 +88,11 @@ class Curb(BaseAPI):
 		return response
 
 
-	def single_curb_rules(self, id, temp_rules_window_start=None, temp_rules_window_end=None):
+	def single_curb_rules(self, curb_id, temp_rules_window_start=None, temp_rules_window_end=None):
 		"""
 		Find the rules on a single curb.
 
-		:param id:
+		:param curb_id:
 		:param temp_rules_window_start:
 		:param temp_rules_window_end:
 		:return:
@@ -100,7 +100,7 @@ class Curb(BaseAPI):
 
 		path = (
 			f'{self.CURB_ENDPOINT}bybounds/all_rules?'
-			f'id={id}'
+			f'id={curb_id}'
 			+ (f'&temp_rules_window_start={temp_rules_window_start}' if temp_rules_window_start is not None else self.BLANK)
 			+ (f'&temp_rules_window_end={temp_rules_window_end}' if temp_rules_window_end is not None else self.BLANK)
 			+ f'&{self.secret_key}'
@@ -111,18 +111,18 @@ class Curb(BaseAPI):
 		return response
 
 
-	def single_curb_rules_certain_time(self, id, time=None):
+	def single_curb_rules_certain_time(self, curb_id, time=None):
 		"""
 		Find the rules on a single curb at a certain time.
 
-		:param id:
+		:param curb_id:
 		:param time:
 		:return:
 		"""
 
 		path = (
 			f'{self.CURB_ENDPOINT}bybounds/all_rules?'
-			f'id={id}'
+			f'id={curb_id}'
 			+ (f'&time={time}' if time is not None else self.BLANK)
 			+ f'&{self.secret_key}'
 		)

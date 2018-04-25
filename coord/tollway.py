@@ -23,8 +23,28 @@ class Tollway(BaseAPI):
 
 		return response
 
-	def tolls_in_area(self):
-		pass
+	def tolls_in_area(self, latitude, longitude, radius_km):
+		"""
+		Get all tolls in an area defined by a center location and a radius
 
-	def toll_details(self):
-		pass
+		:param latitude: float
+		:param longitude: float
+		:param radius_km: float
+		:return: dict
+		"""
+		path = f'{self.TOLLWAY_ENDPOINT}toll?latitude={latitude}&longitude={longitude}&radius_km={radius_km}&{self.secret_key}'
+		response = requests.get(path).json()
+
+		return response
+
+	def toll_details(self, toll_id):
+		"""
+		Get the details (e.g. pricing) of a toll specified by toll's ID
+
+		:param toll_id: int
+		:return: dict
+		"""
+		path = f'{self.TOLLWAY_ENDPOINT}toll?id={toll_id}&{self.secret_key}'
+		response = requests.get(path).json()
+
+		return response
